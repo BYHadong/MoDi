@@ -1,5 +1,6 @@
 package byh.adong.modi
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -45,7 +46,8 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onResponse(call: Call<Status>, response: Response<Status>) {
                     val status = response!!.body()!!.status
                     if (status.success) {
-                        Toast.makeText(applicationContext, "회원가입 완료", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SignUpActivity, "회원가입 완료", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
                         finish()
                     } else {
                         Snackbar.make(view, status.message, Snackbar.LENGTH_SHORT).show()

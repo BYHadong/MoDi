@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         view = window.decorView.rootView
-        loginId.setOnClickListener(this)
+        loginButton.setOnClickListener(this)
         loginSignUpButton.setOnClickListener(this)
     }
 
@@ -48,10 +48,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onResponse(call: Call<UserGet>, response: Response<UserGet>) {
                         val status = response!!.body()!!.status
                         if (status.success) {
-                            Toast.makeText(applicationContext, "로그인 성공", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                             val token = response.body()!!.token.data
-                            SharedPreferenceUtil.savePreference(applicationContext, token)
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                            SharedPreferenceUtil.savePreference(this@LoginActivity, token)
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                             finish()
                         } else {
                             Snackbar.make(view, status.message, Snackbar.LENGTH_LONG).show()
