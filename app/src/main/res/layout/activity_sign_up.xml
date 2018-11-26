@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/modiColor"
+        tools:context=".SignUpActivity">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/main_icon"/>
+
+    <EditText
+            android:id="@+id/signUpId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="아이디"
+            android:inputType="text"
+            android:layout_marginRight="44dp"
+            android:layout_marginLeft="44dp"/>
+
+    <EditText
+            android:id="@+id/signUpPasswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"
+            android:layout_marginRight="44dp"
+            android:layout_marginLeft="44dp"/>
+
+    <EditText
+            android:id="@+id/reSignUpPasswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:layout_marginRight="44dp"
+            android:layout_marginLeft="44dp"/>
+
+    <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textSize="18dp"
+            android:textColor="@color/modiTextColor"
+            android:background="@drawable/buttontawon"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="44dp"
+            android:layout_marginLeft="44dp"/>
+
+
+</LinearLayout>
