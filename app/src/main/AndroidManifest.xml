@@ -30,8 +30,7 @@
 
         <activity android:name=".MainActivity"/>
 
-        <activity android:name=".WriteActivity"
-                  android:theme="@style/ActivityTheme"/>
+        <activity android:name=".WriteActivity"/>
 
     </application>
 
