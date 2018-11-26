@@ -37,11 +37,11 @@ class WriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_write)
 
         val custombar = CusTomBarUtil()
-        custombar.creatcustombar(applicationContext, R.layout.custom_actionbar, supportActionBar)
+        custombar.creatcustombar(this@WriteActivity, R.layout.custom_actionbar, supportActionBar)
         customlayoutview = custombar.getcustomlayoutview()
 
         customlayoutview.btnBack.setOnClickListener{
-            Toast.makeText(applicationContext,"일기작성이 종료 되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@WriteActivity,"일기작성이 종료 되었습니다.", Toast.LENGTH_SHORT).show()
             finish()
         }
         customlayoutview.btnSelect.setOnClickListener {
