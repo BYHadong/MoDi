@@ -3,6 +3,7 @@ package byh.adong.modi
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -67,7 +68,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val call = apiService.getdiary()
         call.enqueue(object : Callback<DiariesGet> {
             override fun onFailure(call: Call<DiariesGet>, t: Throwable) {
-
+                val alertDialog = AlertDialog.Builder(this@MainActivity)
+                alertDialog.setTitle("서버 점검중입니다.")
+                alertDialog.setMessage("서버가 점검중입니다. 나중에 다시 들어와 주세요.")
+                alertDialog.setIcon(R.drawable.warning)
+                alertDialog.setPositiveButton("확인", { dialog, which ->
+                    finish()
+                })
+                alertDialog.show()
                 Log.d(TAG, t!!.message)
             }
 
