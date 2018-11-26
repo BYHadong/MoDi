@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import byh.adong.modi.data.Diaries
 import byh.adong.modi.data.DiariesGet
@@ -27,9 +26,6 @@ import java.util.*
 class WriteActivity : AppCompatActivity() {
 
     val MIN_CLICK_TIME = 600L
-
-    lateinit var customlayoutview : View
-
     var mLastClickTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +34,7 @@ class WriteActivity : AppCompatActivity() {
 
         val custombar = CusTomBarUtil()
         custombar.creatcustombar(this@WriteActivity, R.layout.custom_actionbar, supportActionBar)
-        customlayoutview = custombar.getcustomlayoutview()
+        val customlayoutview = custombar.getcustomlayoutview()
 
         customlayoutview.btnBack.setOnClickListener{
             Toast.makeText(this@WriteActivity,"일기작성이 종료 되었습니다.", Toast.LENGTH_SHORT).show()
@@ -78,7 +74,7 @@ class WriteActivity : AppCompatActivity() {
 
     fun finishdiary(){
         val time = SimpleDateFormat("yyyy/MM/dd/aa hh/mm").format(Date(System.currentTimeMillis()))
-        val diary = Diaries(setWeather.text.toString(),setFeel.text.toString(), setContent.text.toString(), time)
+        val diary = Diaries(setWeather.text.toString().trim(),setFeel.text.toString().trim(), setContent.text.toString().trim(), time)
         val token = SharedPreferenceUtil.getPreference(applicationContext)
         val apiService = RetrofitService().creatService(APIService :: class.java, token)
         val call = apiService.diarywrite(diary)
