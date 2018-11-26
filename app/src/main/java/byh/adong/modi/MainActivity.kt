@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -25,15 +26,17 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     val TAG = "MainActivity"
-
+    var adapter : MyAdapter? = null
+    var diarylist : RecyclerView? = null
     val listarraydata: ArrayList<Diarielist> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        diarylist = findViewById(R.id.diaryList)
         val lim = LinearLayoutManager(this)
-        diaryList.layoutManager = lim
+        diarylist!!.layoutManager = lim
         inputDiary()
 
         diaryWirteButton.setOnClickListener(this)
@@ -90,8 +93,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         val content = diaries.get(i).contents
                         listarraydata.add(Diarielist(days, feel, weather, content))
                     }
-                    val adapter = MyAdapter(listarraydata)
-                    MainActivity().diaryList!!.adapter = adapter
+                    adapter = MyAdapter(listarraydata)
+                    diarylist!!.adapter = adapter
                 } else {
                     Snackbar.make(window.decorView.rootView, state.message, Snackbar.LENGTH_SHORT).show()
                 }
