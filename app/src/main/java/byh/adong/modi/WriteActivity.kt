@@ -12,7 +12,7 @@ import android.widget.Toast
 import byh.adong.modi.data.Diaries
 import byh.adong.modi.data.DiariesGet
 import byh.adong.modi.service.APIService
-import byh.adong.modi.service.RetrofitService
+import byh.adong.modi.service.RetrofitUtil
 import byh.adong.modi.util.CusTomBarUtil
 import byh.adong.modi.util.SharedPreferenceUtil
 import kotlinx.android.synthetic.main.activity_write.*
@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.custom_actionbar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.util.*
 
 class WriteActivity : AppCompatActivity() {
 
@@ -38,6 +36,7 @@ class WriteActivity : AppCompatActivity() {
 
         customlayoutview.btnBack.setOnClickListener{
             Toast.makeText(this@WriteActivity,"일기작성이 종료 되었습니다.", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@WriteActivity, MainActivity::class.java))
             finish()
         }
         customlayoutview.btnSelect.setOnClickListener {
@@ -73,22 +72,21 @@ class WriteActivity : AppCompatActivity() {
     }
 
     fun finishdiary(){
-        val time = SimpleDateFormat("yyyy/MM/dd/aa hh/mm").format(Date(System.currentTimeMillis()))
-        val diary = Diaries(setWeather.text.toString().trim(),setFeel.text.toString().trim(), setContent.text.toString().trim(), time)
-        val token = SharedPreferenceUtil.getPreference(applicationContext)
-        val apiService = RetrofitService().creatService(APIService :: class.java, token)
+        val diary = Diaries(setWeather.text.toString().trim(), setFeel.text.toString().trim(), setContent.text.toString().trim())
+        val token = SharedPreferenceUtil.getPreference(this)
+        val apiService = RetrofitUtil.creatService(APIService :: class.java, token)
         val call = apiService.diarywrite(diary)
         call.enqueue(object : Callback<DiariesGet>{
             override fun onFailure(call: Call<DiariesGet>, t: Throwable) {
                 Snackbar.make(window.decorView.rootView, "알 수 없는 오류가 발생했습니다.", Snackbar.LENGTH_SHORT).show()
-                Log.d("WriteAcitivity", t!!.message)
+                Log.d("WriteAcitivity", t.message)
             }
 
             override fun onResponse(call: Call<DiariesGet>, response: Response<DiariesGet>) {
-                val status = response!!.body()!!.status
+                val status = response.body()!!.status
                 if(status.success){
-                    Toast.makeText(applicationContext, "일기 작성 완료", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    Toast.makeText(this@WriteActivity, "일기 작성 완료", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@WriteActivity, MainActivity::class.java))
                     finish()
                 } else {
                     Snackbar.make(window.decorView.rootView, status.message, Snackbar.LENGTH_SHORT).show()

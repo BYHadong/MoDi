@@ -3,9 +3,7 @@ package byh.adong.modi.service
 
 import byh.adong.modi.data.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface APIService<T> {
 
@@ -22,6 +20,9 @@ interface APIService<T> {
 
     @GET("write")
     fun getdiary() : Call<DiariesGet>
+
+    @DELETE("write/{diary_id}")
+    fun deleteDiary(@Path("diary_id") diary_id: Int) : Call<DiariesGet>
 
 
 

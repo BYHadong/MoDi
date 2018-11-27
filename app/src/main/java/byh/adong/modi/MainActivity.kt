@@ -12,11 +12,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import byh.adong.modi.Adapter.MyAdapter
+import byh.adong.modi.adapter.MyAdapter
 import byh.adong.modi.data.Diarielist
 import byh.adong.modi.data.DiariesGet
 import byh.adong.modi.service.APIService
-import byh.adong.modi.service.RetrofitService
+import byh.adong.modi.service.RetrofitUtil
 import byh.adong.modi.util.SharedPreferenceUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.action_logout -> {
-                Toast.makeText(applicationContext, "로그아웃", Toast.LENGTH_SHORT).show()
-                SharedPreferenceUtil.removePreference(applicationContext)
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
+                Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show()
+                SharedPreferenceUtil.removePreference(this)
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
                 return true
             }
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     fun inputDiary() {
         val token = SharedPreferenceUtil.getPreference(this)
-        val apiService = RetrofitService().creatService(APIService::class.java, token)
+        val apiService = RetrofitUtil.creatService(APIService::class.java, token)
         val call = apiService.getdiary()
         call.enqueue(object : Callback<DiariesGet> {
             override fun onFailure(call: Call<DiariesGet>, t: Throwable) {
@@ -79,19 +79,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     finish()
                 })
                 alertDialog.show()
-                Log.d(TAG, t!!.message)
+                Log.d(TAG, t.message)
             }
 
             override fun onResponse(call: Call<DiariesGet>, response: Response<DiariesGet>) {
-                val state = response!!.body()!!.status
+                val state = response.body()!!.status
                 val diaries = response.body()!!.diaries
                 if (state.success) {
-                    for (i in diaries.size - 1 downTo 0) {
+                    for (i in diaries.indices) {
                         val days = diaries.get(i).createdAt
                         val feel = diaries.get(i).feel
                         val weather = diaries.get(i).weather
                         val content = diaries.get(i).contents
-                        listarraydata.add(Diarielist(days, feel, weather, content))
+                        val diary_id = diaries.get(i).diary_id
+                        Log.d(TAG, "$days + $feel + $weather + $content + $diary_id")
+                        Log.d(TAG, "$i")
+                        listarraydata.add(Diarielist(days, feel, weather, content, diary_id))
                     }
                     adapter = MyAdapter(listarraydata)
                     diarylist!!.adapter = adapter

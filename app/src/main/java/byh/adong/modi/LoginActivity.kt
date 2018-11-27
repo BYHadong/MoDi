@@ -10,7 +10,7 @@ import android.widget.Toast
 import byh.adong.modi.data.User
 import byh.adong.modi.data.UserGet
 import byh.adong.modi.service.APIService
-import byh.adong.modi.service.RetrofitService
+import byh.adong.modi.service.RetrofitUtil
 import byh.adong.modi.util.SharedPreferenceUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -37,16 +37,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val user = User(lID, lPasswd)
         when (v!!.id) {
             R.id.loginButton -> {
-                val apiservice = RetrofitService().creatService(APIService::class.java)
+                val apiservice = RetrofitUtil.creatService(APIService::class.java)
                 val call = apiservice.login(user)
                 call.enqueue(object : Callback<UserGet> {
                     override fun onFailure(call: Call<UserGet>, t: Throwable) {
                         Snackbar.make(view, "알수 없는 오류가 발생했습니다.", Snackbar.LENGTH_LONG).show()
-                        Log.d(TAG, t!!.message)
+                        Log.d(TAG, t.message)
                     }
 
                     override fun onResponse(call: Call<UserGet>, response: Response<UserGet>) {
-                        val status = response!!.body()!!.status
+                        val status = response.body()!!.status
                         if (status.success) {
                             Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                             val token = response.body()!!.token.data
