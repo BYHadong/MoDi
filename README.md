@@ -3,4 +3,3 @@
 
 # 사용 기술및 API
 * retrofit2
-* Sharedpreference
